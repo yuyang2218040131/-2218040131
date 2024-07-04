@@ -302,6 +302,98 @@ if __name__ == "__main__":
     
     print(pyromancer.details())
     print(frost_mage.details())
+# Example usage:
+if __name__ == "__main__":
+    ranger = Ranger("Artemis", 30, 25)
+    
+    print(ranger.details())
+    
+    ranger.fire_arrow()
+    ranger.melee_attack()
+    ranger.fire_arrow()
+    ranger.fire_arrow()
+    ranger.fire_arrow()
+    
+    print(ranger.details())
+    
+    ranger.reset_values()
+    
+    print(ranger.details())
+class Warrior:
+    def __init__(self, name, strength_level, defence_level):
+        self.name = name
+        self.strength_level = strength_level
+        self.defence_level = defence_level
+        self.armour_value = 10
+    
+    def details(self):
+        return f"{self.name} | Strength Level: {self.strength_level} | Defence Level: {self.defence_level} | Armour Value: {self.armour_value}"
+    
+    def reset_values(self):
+        self.armour_value = 10
+    
+    def take_damage(self, damage):
+        total_defence = self.defence_level + self.armour_value
+        actual_damage = max(damage - total_defence, 0)
+        
+        if actual_damage > 0:
+            self.armour_value -= 5
+            if self.armour_value <= 0:
+                print(f"{self.name}'s armour is shattered!")
+                self.armour_value = 0
+            print(f"{self.name} takes {actual_damage} damage!")
+        else:
+            print(f"{self.name} takes no damage!")
+        
+    def calculate_power(self):
+        return self.strength_level
+    
+# Example usage:
+if __name__ == "__main__":
+    warrior = Warrior("Conan", 35, 20)
+    
+    print(warrior.details())
+    
+    warrior.take_damage(15)
+    warrior.take_damage(30)
+    warrior.take_damage(25)
+    
+    print(warrior.details())
+    
+    warrior.reset_values()
+    
+    print(warrior.details())
+class BlessedWarrior:
+    def __init__(self, name, max_health, base_damage):
+        self.name = name
+        self.max_health = max_health
+        self.current_health = max_health
+        self.base_damage = base_damage
+    
+    def details(self):
+        return f"{self.name} | Health: {self.current_health}/{self.max_health} | Base Damage: {self.base_damage}"
+    
+    def take_damage(self, damage):
+        self.current_health -= damage
+        if self.current_health < 0:
+            self.current_health = 0
+        print(f"{self.name} takes {damage} damage! Current Health: {self.current_health}/{self.max_health}")
+    
+    def heal(self, amount):
+        self.current_health += amount
+        if self.current_health > self.max_health:
+            self.current_health = self.max_health
+        print(f"{self.name} heals {amount} HP. Current Health: {self.current_health}/{self.max_health}")
+    
+    def calculate_damage(self):
+        missing_health = self.max_health - self.current_health
+        bonus_damage = missing_health
+        
+        # Ensure damage doesn't exceed base damage
+        actual_damage = min(self.base_damage + bonus_damage, self.base_damage * 2)
+        
+        return actual_damage
+    
 
             
 
