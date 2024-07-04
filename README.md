@@ -393,7 +393,58 @@ class BlessedWarrior:
         actual_damage = min(self.base_damage + bonus_damage, self.base_damage * 2)
         
         return actual_damage
+   # Example usage:
+if __name__ == "__main__":
+    dharok = BlessedWarrior("Dharok", 100, 20)
     
+    print(dharok.details())
+    
+    # Simulate taking damage and healing
+    dharok.take_damage(30)
+    dharok.take_damage(15)
+    dharok.heal(10)
+    
+    # Calculate damage with current health
+    calculated_damage = dharok.calculate_damage()
+    print(f"{dharok.name} attacks with {calculated_damage} damage!")
+    
+    # Simulate more damage taken
+    dharok.take_damage(50)
+    
+    # Recalculate damage after more damage taken
+    calculated_damage = dharok.calculate_damage()
+    print(f"{dharok.name} attacks with {calculated_damage} damage!")
+class BlessedWarrior:
+    def __init__(self, name, base_damage, range_level):
+        self.name = name
+        self.base_damage = base_damage
+        self.range_level = range_level
+    
+    def details(self):
+        return f"{self.name} | Base Damage: {self.base_damage} | Range Level: {self.range_level}"
+    
+    def increase_range_level(self, level):
+        self.range_level += level
+        print(f"{self.name} increases range level by {level}! New Range Level: {self.range_level}")
+    
+    def calculate_damage(self):
+        total_damage = self.base_damage + self.range_level
+        return total_damage
+    
+# Example usage:
+if __name__ == "__main__":
+    karil = BlessedWarrior("Karil", 20, 5)
+    
+    print(karil.details())
+    
+    # Increase range level
+    karil.increase_range_level(3)
+    
+    # Calculate damage with current stats
+    calculated_damage = karil.calculate_damage()
+    print(f"{karil.name} attacks with {calculated_damage} damage!")
+
+ 
 
             
 
