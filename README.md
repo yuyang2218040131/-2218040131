@@ -30,20 +30,29 @@ class Player:
         self.name = name
         self.health = health
         self.max_health = 100  # Assuming max health is 100
-        
+
     def takeDamage(self, amount):
         self.health -= amount
-        
+
     def heal(self, amount):
         self.health += amount
-        # Healing can exceed max health
         # Uncomment the following lines if you want to limit max health
         # if self.health > self.max_health:
         #     self.health = self.max_health
-        
+
     def __str__(self):
         return f"{self.name} (Health: {self.health}/{self.max_health})"
 
+# Example usage:
+if __name__ == "__main__":
+    player1 = Player("Alice", 80)
+    print(player1)  # Output: Alice (Health: 80/100)
+    
+    player1.takeDamage(30)
+    print(player1)  # Output: Alice (Health: 50/100)
+    
+    player1.heal(20)
+    print(player1)  # Output: Alice (Health: 70/100)
 # Example usage:
 if __name__ == "__main__":
     # Create players
