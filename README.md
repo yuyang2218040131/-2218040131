@@ -168,6 +168,140 @@ class Arena:
             print(f"\n{fighter1.name} wins the duel!")
         else:
             print(f"\n{fighter2.name} wins the duel!")
+# Example usage:
+if __name__ == "__main__":
+    # Create players
+    player1 = Player("Player 1", 80)
+    player2 = Player("Player 2", 90)
+    player3 = Player("Player 3", 70)
+    
+    # Create an Arena instance
+    arena = Arena("Arena 1")
+    
+    # Add combatants to the arena
+    arena.addCombatant(player1)
+    arena.addCombatant(player2)
+    arena.addCombatant(player3)  # This combatant won't be added due to duplicate
+    
+    # List combatants in the arena
+    arena.listCombatants()
+    
+    # Restore all combatants' health
+    arena.restoreCombatants()
+    
+    # Perform a duel in the arena
+    arena.duel()
+class Combatant:
+    def __init__(self, name, combat_class, max_health, attack, defense):
+        self.name = name
+        self.combat_class = combat_class
+        self.max_health = max_health
+        self.current_health = max_health
+        self.attack = attack
+        self.defense = defense
+    
+    def attack_enemy(self, enemy):
+        damage = self.calculate_damage(enemy)
+        enemy.take_damage(damage)
+    
+    def calculate_damage(self, enemy):
+        # Base damage calculation (can be overridden by subclasses)
+        return self.attack - enemy.defense
+    
+    def take_damage(self, damage):
+        if damage > 0:
+            self.current_health -= damage
+            if self.current_health <= 0:
+                print(f"{self.name} has been KO'd!")
+        else:
+            print(f"No damage taken by {self.name}.")
+    
+    def reset_health(self):
+        self.current_health = self.max_health
+    
+    def details(self):
+        return f"Name: {self.name}, Class: {self.combat_class}, Stats: Health: {self.current_health}/{self.max_health}, Attack: {self.attack}, Defense: {self.defense}"
+
+class Ranger(Combatant):
+    def __init__(self, name, max_health=100, attack=20, defense=10):
+        super().__init__(name, "Ranger", max_health, attack, defense)
+    
+    # Override calculate_damage method for Ranger class
+    def calculate_damage(self, enemy):
+        # Rangers have a special way of calculating damage, for example:
+        # Custom logic specific to Ranger class
+        return self.attack - enemy.defense + 5
+
+# 示例用法：
+if __name__ == "__main__":
+    ranger = Ranger("Aragorn")
+    warrior = Combatant("Gimli", "Warrior", 120, 25, 15)
+    
+    print(ranger.details())
+    print(warrior.details())
+    
+    ranger.attack_enemy(warrior)
+    print(warrior.details())  # 显示战士的剩余生命值等信息
+
+    warrior.attack_enemy(ranger)
+    print(ranger.details())  # 显示游侠的剩余生命值等信息
+
+    ranger.reset_health()
+    print(ranger.details())  # 重置游侠的生命值到最大值
+class Mage:
+    def __init__(self, name, magic_level, specialization):
+        self.name = name
+        self.magic_level = magic_level
+        self.specialization = specialization
+        self.mana = magic_level
+        self.regenRate = magic_level / 4
+    
+    def cast_spell(self):
+        # Base spell casting method (to be overridden by subclasses)
+        raise NotImplementedError("Subclasses should implement cast_spell method.")
+    
+    def reset_values(self):
+        self.mana = self.magic_level
+    
+    def details(self):
+        return f"Name: {self.name}, Specialization: {self.specialization}, Magic Level: {self.magic_level}, Mana: {self.mana}, Regen Rate: {self.regenRate}"
+
+class Pyromancer(Mage):
+    def __init__(self, name, magic_level):
+        super().__init__(name, magic_level, "Pyro")
+    
+    def cast_spell(self):
+        # Custom spell casting logic for Pyromancer
+        spell_power = self.mana * 2
+        print(f"{self.name} casts a fiery spell with power {spell_power}!")
+        return spell_power
+
+class FrostMage(Mage):
+    def __init__(self, name, magic_level):
+        super().__init__(name, magic_level, "Frost")
+    
+    def cast_spell(self):
+        # Custom spell casting logic for FrostMage
+        spell_power = self.mana * 1.5
+        print(f"{self.name} casts a frosty spell with power {spell_power}!")
+        return spell_power
+
+# 示例用法：
+if __name__ == "__main__":
+    pyromancer = Pyromancer("Ignis", 50)
+    frost_mage = FrostMage("Aurelia", 40)
+    
+    print(pyromancer.details())
+    print(frost_mage.details())
+    
+    pyromancer.cast_spell()
+    frost_mage.cast_spell()
+    
+    pyromancer.reset_values()
+    frost_mage.reset_values()
+    
+    print(pyromancer.details())
+    print(frost_mage.details())
 
             
 
